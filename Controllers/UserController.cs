@@ -1,4 +1,5 @@
 ﻿using MEAL_2024_API.Context;
+using MEAL_2024_API.DTO;
 using MEAL_2024_API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +20,14 @@ namespace MEAL_2024_API.Controllers
         }
 
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] User userObj)
+        public async Task<IActionResult> Authenticate([FromBody] UseLoginDTO userObj)
         {
             if(userObj == null)
             {
                 return BadRequest();
             }
             var user = await _authContext.Users.
-                FirstOrDefaultAsync(x => x.EmailId == userObj.EmailId && x.Password == userObj.Password);
+                FirstOrDefaultAsync(x => x.EmailId == userObj.Email && x.Password == userObj.Password);
             if(user == null)
             {
                 return NotFound(new { Message = "User Not Found!" });
